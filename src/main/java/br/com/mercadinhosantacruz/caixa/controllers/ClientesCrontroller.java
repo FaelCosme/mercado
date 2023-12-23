@@ -25,7 +25,7 @@ public class ClientesCrontroller {
     public String adicionar(String nome, String cpf, String endereco, String telefone) {
         Cliente c = new Cliente(nome,cpf, endereco, telefone);
         c.cadastrar(jdbc);
-        return "pagDesconto";
+        return "/pagDesconto";
     }
     
 }
