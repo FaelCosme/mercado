@@ -11,6 +11,16 @@ public class Produto {
     private String nome;
     private int qtd;
     private float preco;
+    private double total;
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
+    
 
     public Produto(String nome, int qtd, float preco) {
         this.nome = nome;
@@ -108,5 +118,14 @@ public class Produto {
                 });
         return produto.get();
     }
-
+    
+    public static double Total(JdbcTemplate jdbc){
+        AtomicReference<Double> total = new AtomicReference<>(0.0);
+        
+        jdbc.query("SELECT sum(preco * qtd) AS total FROM produtos;", (rs) -> {
+            total.set(rs.getDouble("total"));
+        });
+        return total.get();
+    }
+    
 }
