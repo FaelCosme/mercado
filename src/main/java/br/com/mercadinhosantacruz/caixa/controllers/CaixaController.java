@@ -2,6 +2,7 @@ package br.com.mercadinhosantacruz.caixa.controllers;
 
 import br.com.mercadinhosantacruz.caixa.models.Produto;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,8 @@ public class CaixaController {
                 Produto.listar(jdbc);
         model.addAttribute("produtos",
                 produtos);
+        double total = Produto.Total(jdbc);
+        model.addAttribute("total", total);
         return "index";
     }
     

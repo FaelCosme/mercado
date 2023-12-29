@@ -41,31 +41,31 @@
             a{
                 color:black;
                 text-decoration: none;
-             
+
             }
             a:hover{
                 color: white;
                 font-style: italic;
-                
+
             }
             marquee{
                 width: 600px;
             }
-            
+
             #cadastro-btn {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #3498db;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-            text-decoration: none;
-        }
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                padding: 10px 20px;
+                font-size: 16px;
+                cursor: pointer;
+                background-color: #3498db;
+                color: #fff;
+                border: none;
+                border-radius: 5px;
+                transition: background-color 0.3s ease;
+                text-decoration: none;
+            }
 
         </style>
     </head>
@@ -95,7 +95,6 @@
                 <th>Preço</th>
                 <th>Quantidade</th>
                 <th>Subtotal</th>
-                <th>Total</th>
                 <th>Opções</th>
             </tr>
         </thead>
@@ -105,7 +104,6 @@
                 <td th:text="${'R$ ' + produto.getPreco()}"></td>
                 <td th:text="${produto.getQtd()}"></td>
                 <td th:text="${'R$ ' + produto.getPreco() * produto.getQtd()}"></td>
-                <td th:text="${ 'R$ ' + produto.getTotal()}"></td>
                 <td>
                     <a th:href="${'/excluir?id=' + produto.getId()}">Excluir</a>
                     <a th:href="${'/editar?id=' + produto.getId()}">Editar</a>
@@ -113,7 +111,9 @@
             </tr>
         </tbody>
     </table>
-     <a href="clientes" id="cadastro-btn">Cadastre-se</a>
+    <div th:text="${'Total: R$ ' + total}">
+    </div>
+    <a href="clientes" id="cadastro-btn">Cadastre-se</a>
     <footer>
 
     </footer>

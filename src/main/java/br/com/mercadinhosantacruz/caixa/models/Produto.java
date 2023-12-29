@@ -120,12 +120,10 @@ public class Produto {
     }
     
     public static double Total(JdbcTemplate jdbc){
-        AtomicReference<Double> total = new AtomicReference<>(0.0);
-        
+        AtomicReference <Double> total = new AtomicReference<>();
         jdbc.query("SELECT sum(preco * qtd) AS total FROM produtos;", (rs) -> {
             total.set(rs.getDouble("total"));
         });
         return total.get();
     }
-    
 }
