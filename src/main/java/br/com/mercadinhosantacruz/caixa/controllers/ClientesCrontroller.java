@@ -6,6 +6,7 @@ package br.com.mercadinhosantacruz.caixa.controllers;
 
 import br.com.mercadinhosantacruz.caixa.models.Cliente;
 import br.com.mercadinhosantacruz.caixa.models.Produto;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -28,6 +29,11 @@ public class ClientesCrontroller {
         Cliente c = new Cliente(nome,cpf, endereco, telefone);
         c.cadastrar(jdbc);
         
+        List<Produto> produtos =
+                Produto.listar(jdbc);
+        model.addAttribute("produtos",
+                produtos);
+        
         double total = Produto.Total(jdbc);
         double desconto = total - (total * 0.2);
         model.addAttribute("desconto", desconto);
@@ -39,7 +45,7 @@ public class ClientesCrontroller {
         Produto p = new Produto(nome, 
                 qtd, preco);
         p.salvar(jdbc);
-        return "redirect:/";
+        return "/pagDesconto";
     }
     
     @PostMapping("/atualizarD")
@@ -50,7 +56,7 @@ public class ClientesCrontroller {
         p.setQtd(qtd);
         p.setPreco(preco);
         p.salvar(jdbc);
-        return "redirect:/";
+        return "/pagDesconto";
     }
     
 }
