@@ -28,27 +28,33 @@ public class CaixaController {
     
     @PostMapping("/adicionar")
     public String adicionar(String nome,
-            int qtd, float preco) {
+            int qtd, float preco, Model model) {
         Produto p = new Produto(nome, 
                 qtd, preco);
         p.salvar(jdbc);
+        double total = Produto.Total(jdbc);
+        model.addAttribute("total", total);
         return "redirect:/";
     }
     
     @PostMapping("/atualizar")
     public String atualizar(int id, String nome,
-            int qtd, float preco){
+            int qtd, float preco, Model model){
         Produto p = Produto.buscar(id, jdbc);
         p.setNome(nome);
         p.setQtd(qtd);
         p.setPreco(preco);
         p.salvar(jdbc);
+        double total = Produto.Total(jdbc);
+        model.addAttribute("total", total);
         return "redirect:/";
     }
     
     @GetMapping("/excluir")
-    public String excluir(int id) {
+    public String excluir(int id, Model model) {
         Produto.remover(id, jdbc);
+        double total = Produto.Total(jdbc);
+        model.addAttribute("total", total);
         return "redirect:/";
     }
     
@@ -60,6 +66,8 @@ public class CaixaController {
         model.addAttribute("produtos",
                 produtos);
         model.addAttribute("p", p);
+        double total = Produto.Total(jdbc);
+        model.addAttribute("total", total);
         return "index";
     }
     

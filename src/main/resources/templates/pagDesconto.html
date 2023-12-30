@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <style>
             body{
-                background-color: green;
+                background-color: indigo;
                 color: white;
                 text-align: center;
                 font-family: monospace;
@@ -48,58 +48,67 @@
                 font-style: italic;
 
             }
+            header{
+                text-align: center;
+                margin: auto;
+                width: 600px;
+            }
             marquee{
                 width: 600px;
             }
         </style>
     </head>
     <body>
-    <marquee>
-        <h2>Página exclusiva para clientes cadastrados.</h2>
-        <h1>Caixa do Mercadinho Santa Cruz</h1>
-    </marquee>
-    <h3>Produtos</h3>
-    <form th:action="${p == null ? '/adicionarD' : '/atualizarD'}" method="POST">
-        <input th:if="${p != null}" type="hidden" name="id" th:value="${p.getId()}">
-        <label>Nome: </label>            
-        <input type="text" name="nome"
-               required maxlength="100"
-               th:value="${p?.getNome()}"><br>
-        <label>Quantidade: </label>
-        <input type="number" name="qtd" required
-               th:value="${p?.getQtd()}"><br>
-        <label>Preço</label>
-        <input type="text" name="preco" required
-               th:value="${p?.getPreco()}"><br>
-        <button type="submit" th:text="${p == null ? 'Adicionar' : 'Atualizar'}">Adicionar</button>
-    </form>
-    <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Preço</th>
-                <th>Quantidade</th>
-                <th>Subtotal</th>
-                <th>Opções</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="produto : ${produtos}">
-                <td th:text="${produto.getNome()}"></td>
-                <td th:text="${'R$ ' + produto.getPreco()}"></td>
-                <td th:text="${produto.getQtd()}"></td>
-                <td th:text="${'R$ ' + produto.getPreco() * produto.getQtd()}"></td>
-                <td>
-                    <a th:href="${'/excluir?id=' + produto.getId()}">Excluir</a>
-                    <a th:href="${'/editar?id=' + produto.getId()}">Editar</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <div th:text="${'Total: R$ ' + desconto}">
-    </div>
-    <footer>
+        <header>
+            <marquee>
+                <h1>Caixa do Mercadinho Santa Cruz</h1>
+            </marquee>
+            <marquee direction="right">
+                <h2>Exclusivos para clientes cadastrados</h2>
+            </marquee>
+        </header>
+        <h3>Produtos</h3>
+        <form th:action="${p == null ? '/adicionarD' : '/atualizarD'}" method="POST">
+            <input th:if="${p != null}" type="hidden" name="id" th:value="${p.getId()}">
+            <label>Nome: </label>            
+            <input type="text" name="nome"
+                   required maxlength="100"
+                   th:value="${p?.getNome()}" autofocus><br>
+            <label>Quantidade: </label>
+            <input type="number" name="qtd" required
+                   th:value="${p?.getQtd()}"><br>
+            <label>Preço</label>
+            <input type="text" name="preco" required
+                   th:value="${p?.getPreco()}"><br>
+            <button type="submit" th:text="${p == null ? 'Adicionar' : 'Atualizar'}">Adicionar</button>
+        </form>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                    <th>Subtotal</th>
+                    <th>Opções</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="produto : ${produtos}">
+                    <td th:text="${produto.getNome()}"></td>
+                    <td th:text="${'R$ ' + produto.getPreco()}"></td>
+                    <td th:text="${produto.getQtd()}"></td>
+                    <td th:text="${'R$ ' + produto.getPreco() * produto.getQtd()}"></td>
+                    <td>
+                        <a th:href="${'/excluirD?id=' + produto.getId()}">Excluir</a>
+                        <a th:href="${'/editarD?id=' + produto.getId()}">Editar</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div th:text="${'Total: R$ ' + desconto}">
+        </div>
+        <footer>
 
-    </footer>
-</body>
+        </footer>
+    </body>
 </html>

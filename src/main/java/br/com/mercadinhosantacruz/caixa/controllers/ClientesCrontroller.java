@@ -24,8 +24,9 @@ public class ClientesCrontroller {
     
     @Autowired JdbcTemplate jdbc;
     
-    @PostMapping("/cadastrar")
+    @PostMapping("/pagDesconto")
     public String adicionar(Model model, String nome, String cpf, String endereco, String telefone) {
+        
         Cliente c = new Cliente(nome,cpf, endereco, telefone);
         c.cadastrar(jdbc);
         
@@ -37,26 +38,73 @@ public class ClientesCrontroller {
         double total = Produto.Total(jdbc);
         double desconto = total - (total * 0.2);
         model.addAttribute("desconto", desconto);
-        return "/pagDesconto";
+        return "pagDesconto";
     }
      @PostMapping("/adicionarD")
-    public String adicionar(String nome,
+    public String adicionar(Model model, String nome,
             int qtd, float preco) {
         Produto p = new Produto(nome, 
                 qtd, preco);
         p.salvar(jdbc);
-        return "/pagDesconto";
+        
+        List<Produto> produtos =
+                Produto.listar(jdbc);
+        model.addAttribute("produtos",
+                produtos);
+        
+        double total = Produto.Total(jdbc);
+        double desconto = total - (total * 0.2);
+        model.addAttribute("desconto", desconto);
+        
+        return "pagDesconto";
     }
     
     @PostMapping("/atualizarD")
-    public String atualizar(int id, String nome,
+    public String atualizar(Model model, int id, String nome,
             int qtd, float preco){
         Produto p = Produto.buscar(id, jdbc);
         p.setNome(nome);
         p.setQtd(qtd);
         p.setPreco(preco);
         p.salvar(jdbc);
-        return "/pagDesconto";
+        
+        List<Produto> produtos =
+                Produto.listar(jdbc);
+        model.addAttribute("produtos",
+                produtos);
+        double total = Produto.Total(jdbc);
+        double desconto = total - (total * 0.2);
+        model.addAttribute("desconto", desconto);
+        
+        return "pagDesconto";
+    }
+     @GetMapping("/excluirD")
+    public String excluir(int id, Model model) {
+        Produto.remover(id, jdbc);
+        List<Produto> produtos =
+                Produto.listar(jdbc);
+        Produto p = Produto.buscar(id, jdbc);
+        model.addAttribute("produtos",
+                produtos);
+        model.addAttribute("p", p);
+        double total = Produto.Total(jdbc);
+        double desconto = total - (total * 0.2);
+        model.addAttribute("desconto", desconto);
+        return "pagDesconto";
+    }
+    
+    @GetMapping("/editarD")
+    public String editar(int id, Model model) {
+        List<Produto> produtos =
+                Produto.listar(jdbc);
+        Produto p = Produto.buscar(id, jdbc);
+        model.addAttribute("produtos",
+                produtos);
+        model.addAttribute("p", p);
+        double total = Produto.Total(jdbc);
+        double desconto = total - (total * 0.2);
+        model.addAttribute("desconto", desconto);
+        return "pagDesconto";
     }
     
 }
